@@ -1,0 +1,55 @@
+﻿@model IEnumerable<ExamCNXDevSoft.Models.Student>;
+@{
+    ViewData["Title"] = "Home";
+}
+
+@if (Model.Count()>0)
+{
+    <h1 class="text-center">ระบบบันทึกคะแนนสอบ</h1>
+
+    <table class="table table-light">
+        <thead>
+            <tr>
+                <th>รหัสนักเรียน</th>
+                <th>ชื่อนักเรียน</th>
+                <th>คะแนนสอบ</th>
+                <th>ผลสอบ</th>
+                <th>แก้ไข</th>
+                <th>ลบ</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var student in Model)
+            {
+                <tr>
+                    <td>@student.Id</td>
+                    <td>@student.Name</td>
+                    <td>@student.Score</td>
+                    <td>
+                        @if (@student.Score >= 50)
+                        {
+                            <p class="text-success">PASS</p>
+                        }
+                        else
+                        {
+                            <p class="text-danger">FAILD</p>
+                        }
+                    </td>
+                    <td><a class="btn btn-warning" asp-controller="Student" asp-action="Edit" asp-route-id="@student.Id">แก้ไข</a></td>
+                    <td><a class="btn btn-danger" asp-controller="Student" asp-action="Delete" asp-route-id="@student.Id" onclick="retrun confirm('คุณต้องการลบ @student.Name หรือไม่')">ลบ</a></td>
+
+                </tr>
+            }
+        </tbody>
+        <td><a class="btn btn-warning" asp-controller="Student" asp-action="ExportExcel">Export To Excel</a></td>
+    </table>
+   
+
+}
+else
+{
+    <div class="alert alert-secondary">ไมมีข้อมูลนักเรียนในระบบ</div>
+}
+
+
+
